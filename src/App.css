@@ -232,7 +232,7 @@ video{
   margin: 40px auto;
 }
 img{
-  max-width: 100%;
+  max-width: 100%; 
 }
 
 /* promice_list */
@@ -245,6 +245,16 @@ img{
 }
 .process_list .left_text{
   padding-top: 60px;
+}
+
+#v0 {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+#scrollSection {
+  display: block;
 }
 
 

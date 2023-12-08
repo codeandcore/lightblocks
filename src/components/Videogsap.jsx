@@ -1,104 +1,57 @@
-import React, { useRef } from "react";
-// import gsap from "gsap";
-// import ScrollTrigger from "gsap/ScrollTrigger";
-import { VideoScroll } from "react-video-scroll";
-
-// gsap.registerPlugin(ScrollTrigger);
-
-const Videogsap = ({ videoSrc }) => {
-//   const videoRef = useRef(null);
-
-//   useEffect(() => {
-//     const video = videoRef.current;
-    
-//     /* Make sure the video is 'activated' on iOS */
-//     const once = (el, event, fn, opts) => {
-//       var onceFn = function (e) {
-//         el.removeEventListener(event, onceFn);
-//         fn.apply(this, arguments);
-//       };
-//       el.addEventListener(event, onceFn, opts);
-//       return onceFn;
-//     };
-
-//     once(document.documentElement, "touchstart", function (e) {
-//       video.play();
-//       video.pause();
-//     });
-
-//     /* ---------------------------------- */
-//     /* Scroll Control! */
-
-//     let tl = gsap.timeline({
-//       defaults: { duration: 5 },
-//       scrollTrigger: {
-//         trigger: "#video_id", // Replace with your actual container ID or selector
-//         start: "top top",
-//         end: "bottom bottom",
-//         scrub: 1, 
-//         markers : true,
-//         pin: true,
-//       },
-//     });
-
-//     once(video, "loadedmetadata", () => {
-//       tl.fromTo(
-//         video,
-//         {
-//           currentTime: 0,
-//         },
-//         {
-//           currentTime: video.duration || 1,
-//         }
-//       );
-//     });
-
-//     /* When first coded, the Blobbing was important to ensure the browser wasn't dropping previously played segments, but it doesn't seem to be a problem now. Possibly based on memory availability? */
-//     setTimeout(function () {
-//       if (window["fetch"]) {
-//         fetch(videoSrc)
-//           .then((response) => response.blob())
-//           .then((response) => {
-//             var blobURL = URL.createObjectURL(response);
-
-//             var t = video.currentTime;
-//             once(document.documentElement, "touchstart", function (e) {
-//               video.play();
-//               video.pause();
-//             });
-
-//             video.setAttribute("src", blobURL);
-//             video.currentTime = t + 0.01;
-//           });
-//       }
-//     }, 1000);
-
-//     /* ---------------------------------- */
-//   }, [videoSrc]); 
+import React, { useEffect, useRef, useState } from "react";
 
 
-    const setFrame = (props) => {
-        const { duration, playbackRate } = props;
-        return window.pageYOffset / 20 - playbackRate;
+export default function Videogsap({videoSrc}) {
+  const videoRef = useRef(null);
+  const scrollSectionRef = useRef(null);
+  const [hasLoaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+    const playbackConst = 500; // Adjust the constant as needed
+    // Use requestAnimationFrame for smooth playback
+    function scrollPlay() {
+      if (videoRef.current) {
+        const frameNumber = window.pageYOffset / playbackConst;
+        videoRef.current.currentTime = frameNumber;
+      }
+      window.requestAnimationFrame(scrollPlay);
+    }
+
+    window.requestAnimationFrame(scrollPlay);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    video.addEventListener("loadedmetadata", () => {
+      const { duration } = video;
+      const playbackConst = 200;
+      const scrollSection = scrollSectionRef.current;
+      console.log("scrollSection", videoRef.current.duration);
+      if (videoRef?.current) {
+        scrollSection.style.height =
+          Math.floor(duration) * playbackConst + "px";
+      }
+      console.log(duration); // Output: video duration in seconds
+    });
+
+    return () => {
+      video.removeEventListener("loadedmetadata", () => {});
     };
+  }, []);
 
-  return (    
-    <div className="">
-        <VideoScroll
-          playbackRate={100} // Adjust the playbackRate value
-          setCurrentFrame={setFrame}
-          horizontalScroll={true}
-          style={{ position: "sticky", top: "0" }}
-        >
-            <video tabIndex={0} className="video-background" id="video_id" preload="auto" playsInline>
-                <source
-                type="video/mp4"
-                src={videoSrc}
-                />
-            </video>
-        </VideoScroll>
+  return (
+    <div className="containers">
+        <video ref={videoRef} id="v0" preload="preload">
+          <source
+            type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+            // src="https://www.apple.com/media/us/mac-pro/2013/16C1b6b5-1d91-4fef-891e-ff2fc1c1bb58/videos/macpro_main_desktop.mp4"
+            src={videoSrc}
+          ></source>
+        </video>
+        <div ref={scrollSectionRef} id="scrollSection"></div>
+      
     </div>
   );
-};
-
-export default Videogsap;
+}
