@@ -13,6 +13,7 @@ const Promice = ({ imagesSrc }) => {
           <InfoPlatform
             subtitle="Every existing oracle create its own set of node operators and users need to trust them without knowing much about them."
             description="ESO harness the power of restaking to build the first Ethereum stakers oracle."
+            readmore_text="See our Docs"
           />
         </div>
       </div>

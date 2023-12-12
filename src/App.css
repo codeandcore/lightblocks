@@ -257,7 +257,52 @@ img{
   display: block;
 }
 
+/* .wrapper_video{
+  height:300vh;
+} */
+.logo{
+  position: absolute;
+  z-index: 99;
+  left: 89px;
+  top: 74px;
+}
 
+.banner_content{
+  max-width: 610px;
+  position: fixed;
+  top: 40%;
+  left: 120px;
+  z-index: 9;
+}
+
+.banner_content.active{
+  position: relative;
+}
+
+.banner_content h2{
+  color: #DEDEDE;
+  font-weight: 500;
+  font-size: 47.33px;
+  line-height: 1.3;
+}
+.wrap_button .become_btn,.wrap_button .see_data_btn{
+  width: auto;
+  padding:  5px 20px;
+  margin-right: 15px;
+}
+.wrap_button{
+  margin-top: 50px;
+}
+.wrap_button .become_btn{
+  background-color: #00E96F; 
+  color: #000000;
+}
+.see_data_btn{
+
+}
+.become_btn{
+
+}
 
 /* resopsnisve  */
 @media only screen and (max-width:1660px)
