@@ -412,16 +412,21 @@ img{
   .platfrom_box p{font-size: 16px;line-height: 1.5;padding-bottom: 15px;}
   .line_hr{margin: 10px auto;}
   .logo {top:20px;left:25px;max-width:100px;}
-  .banner_content {left:20px;top:15%;max-width:90%;}
+  .banner_content {left:20px;top:31%;max-width:80%;}
   .banner_content h2{font-size:22px;}
   .wrap_button {margin-top:20px;}
   .wrap_button .become_btn, .wrap_button .see_data_btn {width:auto;padding:2px 13px;margin-right:10px;}
   .btn {font-size:14px;}
-  canvas#hero-lightpass{width:110vh;height:100vh;left:-60%;position:relative;top:20%;}
+  canvas#hero-lightpass{width: 110vh; height: 60vh; left: -60%; position: relative; top: 40%;}
   .promice_list .right_img {width:80%;margin:0 auto;}
-  
+  .top_banner {
+    height: 100vh;
+}
 
-
-
+.top_banner .pin-spacer{height:100vh !important;max-height:100vh !important;}
+.top_banner .pin-spacer > .video-container{height:100vh !important;max-height:100vh !important;}
+.platform_list.section_gap {
+  padding-top: 185px;
+}
 }
 
