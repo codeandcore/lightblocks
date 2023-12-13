@@ -5,90 +5,94 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Videogsap({ videoSrc }) {
+  const htmlRef = useRef(document.documentElement);
+  const canvasRef = useRef(null);
+  const contextRef = useRef(null);
   const pinnedElementRef = useRef(null);
 
   useEffect(() => {
-    let videoScroll = document.querySelector(".video-scroll"),
-      frameNumber = 0,
-      src = videoScroll.currentSrc || videoScroll.src;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    contextRef.current = context;
+
+    const frameCount = 85;
+
+    const currentFrame = (index) =>
+      `https://frontendeveloper.org/ourwork/video-test/images/ezgif-frame-00${index
+        .toString()
+        .padStart(2, "0")}.jpg`;
+      // `../assets/frames/ezgif-frame-00${index.toString().padStart(2, "0")}.jpg`;
+      // `https://www.apple.com/105/media/us/airpods-pro/2019/1299e2f5_9206_4470_b28e_08307a42f19b/anim/sequence/large/01-hero-lightpass/${index.toString().padStart(4, '0')}.jpg`
+
+    const preloadImages = () => {
+      for (let i = 1; i < frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+      }
+    };
 
     const videoScrollTL = gsap.timeline({
-      defaults: { duration: 1 },
-      scrollTrigger: {
-        trigger: ".video-container",
-        pin: true,
-        start: "top top",
-        end: "+=100%",
-        scrub: true,
-        pinSpacing: false,
+        defaults: { duration: 1 },
+        scrollTrigger: {
+          trigger: ".video-container",
+          pin: true,
+          start: "top center",
+          end: "+=300%",
+          scrub: true,
+          pinSpacing: false,
         // markers: true,
-        onUpdate: (self) => {
-          frameNumber = (self.progress / 5) * 100 - 1; //this takes fine tuning divide your videos FPS by two. My video's FPS was 30, 14 was the sweet spot. -1 fixes an issue on safari where the video disappears at the end of the scrollTrigger
-          videoScroll.currentTime = frameNumber;
-        },
-      },
+        }
     });
 
     videoScrollTL.to('.banner_content', { y: '0' })
-      .set(pinnedElementRef.current, { position: 'fixed', width: '100%' })
-      .to(pinnedElementRef.current, { opacity: 0 }, '+=5') // adjust timing as needed
-      .set(pinnedElementRef.current, { position: 'static', opacity: 1 });
+    .set(pinnedElementRef.current, { position: 'fixed', width: '100%'})
+    .to(pinnedElementRef.current, { opacity: 0 }, '+=5') // adjust timing as needed
+    .set(pinnedElementRef.current, { position: 'static', opacity: 1 });
 
-    /* Make sure the video is 'activated' on iOS */
-    function once(el, event, fn, opts) {
-      var onceFn = function (e) {
-        el.removeEventListener(event, onceFn);
-        fn.apply(this, arguments);
-      };
-      el.addEventListener(event, onceFn, opts);
-      return onceFn;
-    }
 
-    once(document.documentElement, "touchstart", function (e) {
-      videoScroll.play();
-      videoScroll.pause();
-    });
+    const img = new Image();
+    img.src = currentFrame(1);
+    canvas.width = window.outerWidth;
+    canvas.height = window.outerHeight;
 
-    //make sure video has loaded
-    once(videoScroll, "loadedmetadata", function () {
-      videoScrollTL.fromTo(
-        videoScroll,
-        { currentTime: 1},
-        { currentTime: videoScroll.duration - 1 }
-      );
-    });
-
-    //When first coded, the Blobbing was important to ensure the browser wasn't dropping previously played segments, but it doesn't seem to be a problem now. Possibly based on memory availability?
-    setTimeout(function () {
-      if (window["fetch"]) {
-        fetch(src)
-          .then(function (response) {
-            return response.blob();
-          })
-          .then(function (response) {
-            var blobURL = URL.createObjectURL(response);
-            var t = videoScroll.currentTime;
-            once(document.documentElement, "touchstart", function (e) {
-              videoScroll.setAttribute("src", blobURL);
-              videoScroll.currentTime = t + 0.01;
-            });
-          });
-      }
-    }, 0);
-
-    // Clean up on component unmount
-    return () => {
-      if (videoScrollTL) {
-        videoScrollTL.kill();
-      }
+    img.onload = function () {
+      context.drawImage(img, 0, 0);
     };
-  }, [videoSrc]); // Include videoSrc in the dependency array
+
+    const updateImage = (index) => {
+      img.src = currentFrame(index);
+      context.drawImage(img, 0, 0);
+    };
+
+    const handleScroll = () => {
+      const scrollTop = htmlRef.current.scrollTop;
+      const maxScrollTop = htmlRef.current.scrollHeight - window.innerHeight;
+      const scrollFraction = scrollTop / maxScrollTop;
+      const frameIndex = Math.min(
+        frameCount - 1,
+        Math.ceil(scrollFraction * frameCount)
+      );
+
+      requestAnimationFrame(() => updateImage(frameIndex + 1));
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    preloadImages();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <>
-     <div className="wrapper">
+    <div className="top_banner">
+      <div className="wrapper">
         <div className="banner_content" ref={pinnedElementRef}>
-          <h2>Decentralized oraclesecured by restaked ETH.Connecting blockchainwith real world data.</h2>
+          <h2>
+            Decentralized oraclesecured by restaked ETH.Connecting
+            blockchainwith real world data.
+          </h2>
           <div className="wrap_button">
             <button className="btn become_btn">Become a Validator</button>
             <button className="btn see_data_btn">See Data</button>
@@ -96,8 +100,8 @@ export default function Videogsap({ videoSrc }) {
         </div>
       </div>
       <div className="video-container">
-        <video muted className="video-scroll" src={videoSrc}></video>
+        <canvas ref={canvasRef} id="hero-lightpass" />
       </div>
-    </>
+    </div>
   );
 }

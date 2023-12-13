@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react"; 
 import Videogsap from "./Videogsap";
-import videoSource from '../assets/video/assets.mp4'
+import videoSource from '../assets/video/assets_120.mp4'
 import logo from '../assets/images/Eoracle.svg'
 import InfoPlatform from "./InfoPlatform";
 

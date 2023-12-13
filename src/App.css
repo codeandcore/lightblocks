@@ -266,19 +266,16 @@ img{
   left: 89px;
   top: 74px;
 }
-
 .banner_content{
   max-width: 610px;
-  position: fixed;
+  position: absolute;
   top: 40%;
   left: 120px;
   z-index: 9;
 }
-
 .banner_content.active{
   position: relative;
 }
-
 .banner_content h2{
   color: #DEDEDE;
   font-weight: 500;
@@ -300,8 +297,18 @@ img{
 .wrap_button .become_btn:hover{
   color: #ffffff;
 }
-.baner_video_wrapper{
-  height: 250vh;
+
+
+.video-container {
+  top: 0 !important;
+  transform: translate(0,0) !important;
+  right: 0 !important;
+  left: auto !important;
+  text-align: right;
+}
+
+.top_banner{
+  height: 280vh;
 }
 
 /* resopsnisve  */
