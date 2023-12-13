@@ -261,7 +261,7 @@ img{
   height:300vh;
 } */
 .logo{
-  position: absolute;
+  position: fixed;
   z-index: 99;
   left: 89px;
   top: 74px;
@@ -305,17 +305,30 @@ img{
   right: 0 !important;
   left: auto !important;
   text-align: right;
+  overflow: hidden;
 }
 
-.top_banner{
-  height: 280vh;
+#hero-lightpass{
+  width: 1920px;
+  height: 1080px;
 }
+
+.head_wrap {
+  height: 260vh;
+}
+
+
 
 /* resopsnisve  */
 @media only screen and (max-width:1660px)
 {
   .wrapper{padding: 0px 30px;}
   .section_gap{padding: 100px 0;}
+  .logo{top: 50px;left: 65px;}
+  .banner_content{left: 80px;} 
+  .banner_content h2{font-size: 38px;}
+  .wrap_button{margin-top: 30px;}
+
 }
 @media only screen and (max-width:1440px)
 {
@@ -323,16 +336,24 @@ img{
   .right_video{width: 55%;}
   .promice_list .left_text{width: 45%;}
 }
-@media only screen and (max-width:1360px)
+@media only screen and (max-width:1366px)
 {
   .platfrom_box h2{font-size: 32px;}
   .platfrom_box p{font-size: 18px;}
   .platform_list h6{padding-bottom: 25px;} 
+  .logo{top: 40px;left: 45px;max-width: 120px;}
+  .banner_content{left:50px;top: 35%;max-width: 450px;}
+  canvas#hero-lightpass{width:1366px;height:768px;}
+  .banner_content h2{font-size: 32px;}
+  .btn{font-size: 16px;}
 
 }
 @media only screen and (max-width:1100px)
 { 
   .section_gap{padding: 70px 0;}
+  canvas#hero-lightpass{width:100vh;height:100vh;}
+  .baner_video_wrapper {height:270vh;}
+
 }
 @media only screen and (max-width:960px)
 { 
@@ -351,5 +372,16 @@ img{
   .platfrom_box h2{font-size: 26px;margin-bottom: 10px;}
   .platfrom_box p{font-size: 16px;line-height: 1.5;padding-bottom: 15px;}
   .line_hr{margin: 10px auto;}
+  .logo {top:20px;left:25px;max-width:100px;}
+  .banner_content {left:20px;top:15%;max-width:90%;}
+  .banner_content h2{font-size:22px;}
+  .wrap_button {margin-top:20px;}
+  .wrap_button .become_btn, .wrap_button .see_data_btn {width:auto;padding:2px 13px;margin-right:10px;}
+  .btn {font-size:14px;}
+  canvas#hero-lightpass{width:110vh;height:100vh;left:-60%;position:relative;top:20%;}
+  .promice_list .right_img {width:80%;margin:0 auto;}
+  
+
+
 
 }

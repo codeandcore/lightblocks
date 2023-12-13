@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import logo from '../assets/images/Eoracle.svg'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,6 +10,7 @@ export default function Videogsap({ videoSrc }) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const pinnedElementRef = useRef(null);
+  const pinnedElementReflogo = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -47,13 +49,16 @@ export default function Videogsap({ videoSrc }) {
     videoScrollTL.to('.banner_content', { y: '0' })
     .set(pinnedElementRef.current, { position: 'fixed', width: '100%'})
     .to(pinnedElementRef.current, { opacity: 0 }, '+=5') // adjust timing as needed
-    .set(pinnedElementRef.current, { position: 'static', opacity: 1 });
+    .set(pinnedElementRef.current, { position: 'static', opacity: 1 })
+    .set(pinnedElementReflogo.current, { position: 'fixed', width: '100%'})
+    .to(pinnedElementReflogo.current, { opacity: 0 }, '>') // adjust timing as needed
+    .set(pinnedElementReflogo.current, { position: 'static', opacity: 1 });
 
 
     const img = new Image();
     img.src = currentFrame(1);
-    canvas.width = window.outerWidth;
-    canvas.height = window.outerHeight;
+    canvas.width = 1920;
+    canvas.height = 1080;
 
     img.onload = function () {
       context.drawImage(img, 0, 0);
@@ -87,6 +92,9 @@ export default function Videogsap({ videoSrc }) {
 
   return (
     <div className="top_banner">
+      <a href="/" className="logo" ref={pinnedElementReflogo}>
+        <img src={logo} alt="" />
+      </a>
       <div className="wrapper">
         <div className="banner_content" ref={pinnedElementRef}>
           <h2>
