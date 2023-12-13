@@ -297,11 +297,11 @@ img{
   background-color: #00E96F; 
   color: #000000;
 }
-.see_data_btn{
-
+.wrap_button .become_btn:hover{
+  color: #ffffff;
 }
-.become_btn{
-
+.baner_video_wrapper{
+  height: 250vh;
 }
 
 /* resopsnisve  */

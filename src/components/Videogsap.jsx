@@ -18,11 +18,12 @@ export default function Videogsap({ videoSrc }) {
         trigger: ".video-container",
         pin: true,
         start: "top top",
-        end: "+=120%",
+        end: "+=100%",
         scrub: true,
+        pinSpacing: false,
         // markers: true,
         onUpdate: (self) => {
-          frameNumber = (self.progress / 14) * 100 - 1; //this takes fine tuning divide your videos FPS by two. My video's FPS was 30, 14 was the sweet spot. -1 fixes an issue on safari where the video disappears at the end of the scrollTrigger
+          frameNumber = (self.progress / 5) * 100 - 1; //this takes fine tuning divide your videos FPS by two. My video's FPS was 30, 14 was the sweet spot. -1 fixes an issue on safari where the video disappears at the end of the scrollTrigger
           videoScroll.currentTime = frameNumber;
         },
       },
@@ -30,7 +31,7 @@ export default function Videogsap({ videoSrc }) {
 
     videoScrollTL.to('.banner_content', { y: '0' })
       .set(pinnedElementRef.current, { position: 'fixed', width: '100%' })
-      .to(pinnedElementRef.current, { opacity: 0 }, '+=8') // adjust timing as needed
+      .to(pinnedElementRef.current, { opacity: 0 }, '+=5') // adjust timing as needed
       .set(pinnedElementRef.current, { position: 'static', opacity: 1 });
 
     /* Make sure the video is 'activated' on iOS */
@@ -52,7 +53,7 @@ export default function Videogsap({ videoSrc }) {
     once(videoScroll, "loadedmetadata", function () {
       videoScrollTL.fromTo(
         videoScroll,
-        { currentTime: 0 },
+        { currentTime: 1},
         { currentTime: videoScroll.duration - 1 }
       );
     });
