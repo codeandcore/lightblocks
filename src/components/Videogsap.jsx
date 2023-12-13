@@ -46,11 +46,12 @@ export default function Videogsap({ videoSrc }) {
         }
     });
 
-    videoScrollTL.to('.banner_content', { y: '0' })
-    .set(pinnedElementRef.current, { position: 'fixed', width: '100%'})
+    videoScrollTL.to('.banner_content', {opacity: 0, ease: 'power2.inOut'})
+    .to(pinnedElementRef.current, { opacity: 1, y:'-100'}, '+=5') 
+    .set(pinnedElementRef.current, { position: 'fixed',y:'0', width: '100%', ease: 'power2.inOut'}, '<')
     .to(pinnedElementRef.current, { opacity: 0 }, '+=5') // adjust timing as needed
     .set(pinnedElementRef.current, { position: 'static', opacity: 1 })
-    .set(pinnedElementReflogo.current, { position: 'fixed', width: '100%'})
+    .set(pinnedElementReflogo.current, { position: 'fixed'})
     .to(pinnedElementReflogo.current, { opacity: 0 }, '>') // adjust timing as needed
     .set(pinnedElementReflogo.current, { position: 'static', opacity: 1 });
 

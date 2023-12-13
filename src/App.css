@@ -269,7 +269,7 @@ img{
 .banner_content{
   max-width: 610px;
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 120px;
   z-index: 9;
 }
@@ -317,6 +317,45 @@ img{
   height: 260vh;
 }
 
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loader-container.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loader-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s ease infinite;
+}
+
+@keyframes spin {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(360deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
 
 
 /* resopsnisve  */
@@ -385,3 +424,4 @@ img{
 
 
 }
+
